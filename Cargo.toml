@@ -13,6 +13,9 @@ readme = 'readme.md'
 repository = 'https://github.com/kaikalii/vector2math'
 version = '0.14.0'
 
+[dependencies]
+micromath = "2.1.0"
+
 [dependencies.packed_simd]
 optional = true
 version = '0.3.9'

@@ -1,5 +1,6 @@
 #![warn(missing_docs)]
 #![cfg_attr(not(test), no_std)]
+// #![no_std]
 #![cfg_attr(feature = "simd", feature(doc_cfg))]
 
 /*!
@@ -64,9 +65,9 @@ use vector2math::*;
 
 assert_eq!(5.0, [3.0, 4.0].mag());
 assert_eq!(10.0, [-1.0, -2.0].dist([5.0, 6.0]));
-let rotation_calculation = [1.0, 0.0].rotate_about(f64::TAU / 8.0, [0.0; 2]);
-let rotation_solution = [2f64.powf(0.5) / 2.0; 2];
-assert!(rotation_calculation.sub(rotation_solution).mag() < std::f64::EPSILON);
+let rotation_calculation = [1.0, 0.0].rotate_about(f32::TAU / 8.0, [0.0; 2]);
+let rotation_solution = [2f32.powf(0.5) / 2.0; 2];
+assert!(rotation_calculation.sub(rotation_solution).mag() < std::f32::EPSILON);
 ```
 
 # Rectangles
@@ -106,11 +107,11 @@ A few types can be used to define circles:
 and the second is the vector's [`Vector2::Scalar`] type.
 ```
 use vector2math::*;
-use std::f64;
+use core::f32;
 
 let circle = ([2.0, 3.0], 4.0);
-assert!((circle.circumference() - 25.132_741_228_718_345).abs() < f64::EPSILON);
-assert!((circle.area() - 50.265_482_457_436_69).abs() < f64::EPSILON);
+assert!((circle.circumference() - 25.132_741_228_718_345).abs() < f32::EPSILON);
+assert!((circle.area() - 50.265_482_457_436_69).abs() < f32::EPSILON);
 assert!(circle.contains([0.0, 1.0]));
 assert!(!circle.contains([5.0, 6.0]));
 ```
@@ -122,20 +123,19 @@ Vector, rectangle, and circle types can be easily mapped to different types:
 use vector2math::*;
 
 let arrayf32: [f32; 2] = [1.0, 2.0];
-let arrayf64: [f64; 2] = arrayf32.map_into();
-let pairf64: (f64, f64) = arrayf64.map_into();
-let arrayi16: [i16; 2] = pairf64.map_with(|f| f as i16);
+let arrayf32: [f32; 2] = arrayf32.map_into();
+let pairf32: (f32, f32) = arrayf32.map_into();
+let arrayi16: [i16; 2] = pairf32.map_with(|f| f as i16);
 assert_eq!(arrayf32, arrayi16.map_into::<f32::Vec2>());
 
 let weird_rect = [(0.0, 1.0), (2.0, 5.0)];
 let normal_rectf32: [f32; 4] = weird_rect.map_into();
-let normal_rectf64: [f64; 4] = normal_rectf32.map_into();
 let normal_rectu8: [u8; 4] = normal_rectf32.map_with(|f| f as u8);
 assert_eq!([0, 1, 2, 5], normal_rectu8);
 
 let pair_circlef32 = ((0.0, 1.0), 2.0);
 let array_circlef32 = ([0.0, 1.0], 2.0);
-assert_eq!(((0.0, 1.0), 2.0), array_circlef32.map_into::<((f64, f64), f64)>());
+assert_eq!(((0.0, 1.0), 2.0), array_circlef32.map_into::<((f32, f32), f32)>());
 ```
 
 # Transforms
@@ -173,19 +173,19 @@ use vector2math::*;
 
 #[derive(Clone, Copy)]
 struct MyVector {
-    x: f64,
-    y: f64,
+    x: f32,
+    y: f32,
 }
 
 impl Vector2 for MyVector {
-    type Scalar = f64;
-    fn new(x: f64, y: f64) -> Self {
+    type Scalar = f32;
+    fn new(x: f32, y: f32) -> Self {
         MyVector { x, y }
     }
-    fn x(&self) -> f64 {
+    fn x(&self) -> f32 {
         self.x
     }
-    fn y(&self) -> f64 {
+    fn y(&self) -> f32 {
         self.y
     }
 }
@@ -276,7 +276,7 @@ macro_rules! float_mod {
 }
 
 float_mod!(f32);
-float_mod!(f64);
+// float_mod!(f64);
 
 use core::ops::Neg;
 

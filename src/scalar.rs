@@ -1,4 +1,5 @@
 use core::ops::{Add, Div, Mul, Neg, Sub};
+use micromath::F32Ext;
 
 /// Trait for math with scalar numbers
 pub trait Scalar:
@@ -75,7 +76,7 @@ macro_rules! scalar_float_impl {
             const ONE: Self = 1.0;
             const TWO: Self = 2.0;
             fn abs(self) -> Self {
-                self.abs()
+                F32Ext::abs(self)
             }
         }
     };
@@ -96,7 +97,7 @@ scalar_signed_impl!(i128);
 scalar_signed_impl!(isize);
 
 scalar_float_impl!(f32);
-scalar_float_impl!(f64);
+// scalar_float_impl!(f64);
 
 /// Trait for floating-point scalar numbers
 pub trait FloatingScalar: Scalar + Mul<Output = Self> + Neg<Output = Self> {
@@ -147,20 +148,20 @@ macro_rules! floating_scalar_impl {
             const TAU: Self = $pi * 2.0;
             const EPSILON: Self = $epsilon;
             fn sqrt(self) -> Self {
-                Self::sqrt(self)
+                F32Ext::sqrt(self)
             }
             fn cos(self) -> Self {
-                Self::cos(self)
+                F32Ext::cos(self)
             }
             fn sin(self) -> Self {
-                Self::sin(self)
+                F32Ext::sin(self)
             }
             fn atan2(self, other: Self) -> Self {
-                self.atan2(other)
+                F32Ext::atan2(self, other)
             }
         }
     };
 }
 
 floating_scalar_impl!(f32, core::f32::consts::PI, core::f32::EPSILON);
-floating_scalar_impl!(f64, core::f64::consts::PI, core::f64::EPSILON);
+// floating_scalar_impl!(f64, core::f64::consts::PI, core::f64::EPSILON);

@@ -44,7 +44,7 @@ macro_rules! float_mod {
 }
 
 float_mod!(f32, f32x2);
-float_mod!(f64, f64x2);
+// float_mod!(f64, f64x2);
 
 macro_rules! impl_simd_vector2 {
     ($Vector:ty, $Scalar:ty) => {
